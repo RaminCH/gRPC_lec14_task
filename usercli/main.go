@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v2"
@@ -44,7 +45,7 @@ func main() {
 				Name:  "password",
 				Usage: "Password",
 			},
-			&cli.IntFlag{
+			&cli.StringFlag{
 				Name:  "age",
 				Usage: "Age",
 			},
@@ -58,7 +59,7 @@ func main() {
 			email := c.String("email")
 			company := c.String("company")
 			password := c.String("password")
-			age := c.Int32("age")
+			age, _ := strconv.Atoi(c.String("age"))
 
 			log.Println("test:", name, email, company, password, age)
 
@@ -68,7 +69,7 @@ func main() {
 				Email:    email,
 				Company:  company,
 				Password: password,
-				Age:      age,
+				Age:      int32(age),
 			}
 
 			if err := createUser(ctx, service, user); err != nil {
